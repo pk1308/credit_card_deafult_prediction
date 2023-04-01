@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: CreditCard
+Version: 0.0.1
+Summary: Credit card default prediction
+Home-page: https://github.com/PK1308/creditcard
+Author: PK1308
+Author-email: princevkurien@gmail.com
+License: MIT
+Project-URL: Bug Tracker, https://github.com/PK1308/creditcard/issues
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Provides-Extra: testing
+License-File: license
+
+---
+title: Creditcard
+emoji: 👀
+colorFrom: blue
+colorTo: red
+sdk: gradio
+sdk_version: 3.23.0
+app_file: app.py
+pinned: false
+license: bsd
+---
+
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference

@@ -1,0 +1,6 @@
+from CreditCard.components.stage_02_data_validation import DataValidation
+from CreditCard.components.stage_01_data_ingestion import DataIngestion
+from CreditCard.components.stage_03_data_transformation import DataTransformation
+from CreditCard.components.stage_04_model_trainer import ModelTrainer
+from CreditCard.components.stage_05_model_eval import ModelEvaluation
+from CreditCard.components.stage_06_model_pusher import ModelPusher

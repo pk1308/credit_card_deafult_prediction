@@ -1,0 +1,28 @@
+data_path : artifact/stage03_optuna_training/train.pkl
+target: default
+metrics : roc_auc
+num_trails : 1000
+report_path : artifact/stage04_model_training/model_eval_reports/model_params.yaml
+
+
+models :
+    GBT:
+        model_index: model_2
+        model_module: sklearn.ensemble
+        model_class: GradientBoostingClassifier
+        training_artifact_file_name: gbt_study.csv
+    LGBM:
+        model_index: model_3
+        model_module: lightgbm
+        model_class:  LGBMClassifier
+        training_artifact_file_name: lgbt_study.csv
+    RF:
+        model_index: model_5
+        model_module: sklearn.ensemble
+        model_class:  RandomForestClassifier
+        training_artifact_file_name: xgboost_study.csv
+    CATBOOST:
+        model_index: model_6
+        model_module: catboost
+        model_class:  CatBoostClassifier
+        training_artifact_file_name: catboost_study.csv

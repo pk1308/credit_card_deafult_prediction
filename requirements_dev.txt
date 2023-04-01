@@ -1,0 +1,30 @@
+pandas~=1.5.3
+numpy~=1.23.5
+PyYAML~=5.4.1
+scikit-learn~=1.2.2
+evidently~=0.2.6
+dill~=0.3.6
+loguru~=0.6.0
+ensure==1.0.2
+pydantic~=1.10.6
+catboost~=1.1.1
+pymongo~=4.3.3
+catboost~=1.1.1
+python-box~= 6.0.2
+fastapi~= 0.95.0
+optuna~=3.1.0
+lightgbm~=3.3.5
+xgboost~=1.5.2
+gradio
+-e .
+
+## Dev requirements
+joblib~=1.2.0
+creditcard~=0.0.1
+setuptools~=65.6.3
+yellowbrick~=1.5
+dvc 
+dvc[gdrive]
+
+
+

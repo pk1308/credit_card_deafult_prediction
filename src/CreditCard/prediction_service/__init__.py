@@ -1,0 +1,1 @@
+from CreditCard.prediction_service.prediction_service import  PredictionService

@@ -1,0 +1,48 @@
+data_ingestion_config:
+  dataset_download_file_name: UCI_Credit_Card.csv
+  dataset_download_id: https://raw.githubusercontent.com/pk1308/datasets/master/ucicredit/UCI_Credit_Card.csv
+  ingested_dir: ingested_data
+  ingested_test_file: test.csv
+  ingested_train_file: train.csv
+  ingestion_dir: Stage00_data_ingestion
+  raw_data_dir: raw_data
+data_transformation_config:
+  data_transformation_dir: stage03_data_transformation
+  preprocessing_object_dir: preprocessing
+  preprocessing_object_file_name: preprocessing_obj.pkl
+data_validation_config:
+  data_validation_dir: stage02_data_validation
+  report_dir: data_drift_report
+  validated_test_file: validated_test.pkl
+  validated_train_file: validated_train.pkl
+model_evaluation_config:
+  base_accuracy: 0.8162916666666666
+  eval_difference: 0.05
+  eval_model_dir_name: evaluated_model_dir
+  eval_param: accuracy
+  evaluated_model_file_name: evaluated_model.pkl
+  model_evaluation_dir: stage_05_model_evaluation
+model_pusher_config:
+  base_accuracy: 0.8162916666666666
+  best_model_name: best_model.pkl
+  eval_difference: 0.02
+  eval_param: accuracy
+  model_export_dir: production_model
+  model_pusher_dir: stage_06_model_pusher
+model_trainer_config:
+  base_accuracy: 0.3
+  eval_difference: 0.6
+  eval_param: accuracy
+  model_factory_file_name: model_factory.yaml
+  model_reports_dir: model_eval_reports
+  model_trainer_dir: stage04_model_training
+  models:
+  - GBT
+  - RF
+  - LGBM
+  - CATBOOST
+training_pipeline_config:
+  artifact_dir: artifact
+  experiment_code: Development
+  pipeline_name: CreditCard
+  random_state: 1961

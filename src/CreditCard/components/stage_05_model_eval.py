@@ -73,7 +73,7 @@ class ModelEvaluation:
             y_train = self.train_df[target_column_name].values
             x_test = self.test_df.drop(base_model_features_to_drop, axis=1).values
             y_test = self.test_df[target_column_name].values
-
+            logger.info(f"test_shape{x_test.shape} train_shape{x_train.shape}")
             report_dir = self.model_evaluation_config.report_dir
             base_accuracy = self.model_evaluation_config.base_accuracy
             eval_difference = self.model_evaluation_config.eval_difference

@@ -5,6 +5,7 @@ from CreditCard.entity import CreditData
 import numpy as np
 import pandas as pd 
 from CreditCard.utils import load_object
+from CreditCard.prediction_service import PredictionService
 
 def predict_credit_card_fraud(LIMIT_BAL, SEX, EDUCATION, MARRIAGE, AGE, PAY_O, PAY_1, PAY_2,
                               PAY_3, PAY_4, PAY_5, PAY_6, BILL_AMT1, BILL_AMT2, BILL_AMT3, BILL_AMT4, BILL_AMT5,
@@ -15,12 +16,11 @@ def predict_credit_card_fraud(LIMIT_BAL, SEX, EDUCATION, MARRIAGE, AGE, PAY_O, P
                                 BILL_AMT1=BILL_AMT1, BILL_AMT2=BILL_AMT2, BILL_AMT3=BILL_AMT3, BILL_AMT4=BILL_AMT4,
                                 BILL_AMT5=BILL_AMT5, BILL_AMT6=BILL_AMT6, PAY_AMT1=PAY_AMT1, PAY_AMT2=PAY_AMT2,
                                 PAY_AMT3=PAY_AMT3, PAY_AMT4=PAY_AMT4, PAY_AMT5=PAY_AMT5, PAY_AMT6=PAY_AMT6)
-        DATA = credit_data.dict()
+       
+        prediction_service = PredictionService()
+        prediction=prediction_service.get_model_prediction(data_to_predict=credit_data)
 
-        DATA_TO_PREDICT = pd.DataFrame(DATA, index=[0])
-        model = load_object(Path('production_model/best_model.pkl'))
-        predict_binary = [1]
-        return predict_binary[0]
+        return prediction
     except Exception as e:
         raise e
 
@@ -35,7 +35,7 @@ with gr.Blocks() as demo:
             EDUCATION = gr.inputs.Dropdown(choices=[("Graduate School", 1), ("University", 2), ("High School", 3), ("Others", 4)], label="Education", default=1)
             MARRIAGE = gr.inputs.Dropdown(choices=[("Married", 1), ("Single", 2), ("Others", 3)], label="Marriage", default=1)
             AGE = gr.inputs.Slider(minimum=20, maximum=100, default=30, label="Age in years")
-            PAY_O = gr.inputs.Slider(minimum=0, maximum=10, default=0, label="Repayment status in September 2005 (scale same as above)")
+            PAY_O = gr.inputs.Slider(minimum=0, maximum=10, default=20, label="Repayment status in September 2005 (scale same as above)")
             PAY_1 = gr.inputs.Slider(minimum=0, maximum=10, default=0, label="Repayment status in August 2005 (scale same as above)")
             PAY_2 = gr.inputs.Slider(minimum=0, maximum=10, default=0, label="Repayment status in July 2005 (scale same as above)")
             PAY_3 = gr.inputs.Slider(minimum=0, maximum=10, default=0, label="Repayment status in June 2005 (scale same as above)")

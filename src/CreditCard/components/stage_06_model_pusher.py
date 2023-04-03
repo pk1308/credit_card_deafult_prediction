@@ -112,17 +112,17 @@ class ModelPusher:
                 is_model_accepted = self.get_updated_model_status(report_obj=eval_report_obj,
                                                                 config_file_path=config_file_path,
                                                                 eval_model_dir=Path(eval_model_dir))
+                PRODUCTION_MODEL_PATH = self.model_pusher_config.production_model_path
                 if is_model_accepted:
                     logger.info("best Model accepted")
                     save_object(obj=best_eval_model, file_path=Path(best_model_path_reference))
-                    PRODUCTION_MODEL_PATH = self.model_pusher_config.production_model_path
                     save_object(obj=best_eval_model, file_path=Path(PRODUCTION_MODEL_PATH))
                     response = ModelPusherArtifact(best_model_path=best_model_path_reference,
                                                 is_accepted=True)
                     return response
                 else:
                     logger.warning("best Model already in production")
-                    response = ModelPusherArtifact(best_model_path=best_model_path_reference,
+                    response = ModelPusherArtifact(best_model_path=PRODUCTION_MODEL_PATH,
                                                 is_accepted=False)
                     return response
 

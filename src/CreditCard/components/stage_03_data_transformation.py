@@ -9,6 +9,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import OneHotEncoder
 from yellowbrick.cluster import KElbowVisualizer
+from sklearn.impute import SimpleImputer
 
 from CreditCard.config import ConfigurationManager
 from CreditCard.entity import (DataTransformationArtifact,
@@ -23,12 +24,12 @@ class FeaturePrepare(BaseEstimator, TransformerMixin):
     scaler : StandardScaler clustering using kmeans++ and kneed"""
 
     def __init__(self, feature_generator_config: ConfigBox):
-        self.cluster = None
         try:
+            self.cluster = None
             self.feature_config_info = feature_generator_config
-            self.encoder = OneHotEncoder(sparse_output=False)
+            self.encoder = OneHotEncoder(sparse_output=False , handle_unknown='ignore')
         except Exception as e:
-            raise AppException(e, sys) from e
+           logger.error(e)
 
     def get_cluster(self, data):
         try:
@@ -41,42 +42,43 @@ class FeaturePrepare(BaseEstimator, TransformerMixin):
             self.cluster.fit(data)
             return self.cluster
         except Exception as e:
-            raise AppException(e, sys) from e
+            logger.error(e)
 
     def fit(self, data_to_fit):
         try:
             data_generated = self.__prepare_data(data=data_to_fit)
             self.encoder.fit(data_generated)
             data_encoded = self.encoder.transform(data_generated)
+            logger.info(f"data_encoded :{data_encoded.shape}")
             self.cluster = self.get_cluster(data_encoded)
             return self
         except Exception as e:
-            raise AppException(e, sys) from e
+            logger.error(e)
 
     def transform(self, data_to_transform):
         try:
+            import numpy
             data_generated = self.__prepare_data(data=data_to_transform)
             data_encoded = self.encoder.transform(data_generated)
             prediction = self.cluster.predict(data_encoded)
             response = numpy.c_[data_encoded, prediction]
             return response
         except Exception as e:
-            raise AppException(e, sys) from e
+            logger.error(e)
 
-    def __prepare_data(self, data):
-        try:
-            feature_config_info = self.feature_config_info
-            data_generated = data.copy()
-            import pandas
-
-            for master_data in feature_config_info.keys():
-                feature = feature_config_info[master_data]
-                for column in feature.columns:
-                    data_generated[column] = data[column].clip(lower=feature.lower_bound, upper=feature.upper_bound)
-                    data_generated[column] = pandas.cut(data_generated[column], bins=feature.bins)
-            return data_generated
-        except Exception as e:
-            raise AppException(e, sys) from e
+    def __prepare_data(self,data ):
+        feature_generator_config = self.feature_config_info
+        data_generated = data.copy()
+        import pandas
+        
+        for master in feature_generator_config.keys():
+            master_data = feature_generator_config[master]
+            for column in master_data.columns:
+                data_generated[column] = data[column].clip(lower=master_data.lower_bound, upper=master_data.upper_bound)
+                if master != "pay_x":
+                    data_generated[column] = pandas.cut(data_generated[column], bins=master_data.bins)
+                    
+        return data_generated
 
 
 class DataTransformation:

@@ -13,6 +13,7 @@ from CreditCard.exception import AppException
 from CreditCard.logging import logger
 from CreditCard.model_factory import ModelFactory
 from CreditCard.utils import (load_object, read_yaml, save_object)
+from imblearn.over_sampling import SMOTE
 
 warnings.filterwarnings("ignore")
 
@@ -60,9 +61,12 @@ class ModelTrainer:
         raw_data = pandas.read_pickle(data_path)
         x_train = raw_data.drop(self.schema.base_model_features_to_drop, axis=1)
         y_train = raw_data[self.schema.target_column]
+        
+        smote = SMOTE(random_state=42)
+        x_over, y_over = smote.fit_resample(x_train, y_train)
 
-        x_processed = self.preprocessing_obj.transform(x_train)
-        data_to_train = numpy.c_[x_processed, y_train]
+        x_processed = self.preprocessing_obj.transform(x_over)
+        data_to_train = numpy.c_[x_processed, y_over]
         return data_to_train
 
     def get_model_new_config_path(self, cluster_no: int, model_path):
@@ -96,6 +100,7 @@ class ModelTrainer:
                                          data_to_train=self.data_to_train)
             best_searched_model_config_path = model_factory.initiate_model_params_search()
             best_model_list = model_factory.get_best_model(model_report_path=best_searched_model_config_path)
+            logger.info(f"{'>>' * 30}Base model started{'<<' * 30} ")
             best_model, report = model_factory.get_best_evaluated_model(train_model_list=best_model_list,
                                                                         base_accuracy=base_accuracy,
                                                                         base_report_dir=model_report_dir,

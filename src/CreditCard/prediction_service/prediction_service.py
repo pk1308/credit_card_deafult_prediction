@@ -11,7 +11,7 @@ from CreditCard.utils import load_object
 warnings.filterwarnings("ignore")
 
 MODEL_DIR_NAME = "production_model"
-PRODUCTION_MODEL_NAME = "best_model.pkl"
+PRODUCTION_MODEL_NAME = "production_model.pkl"
 class PredictionService:
     def __int__(self,):
         try:
@@ -32,6 +32,8 @@ class PredictionService:
     def get_model_prediction(self, data_to_predict : CreditData ) -> int:
         data_to_predict = self.__get_data(data_to_prepare=data_to_predict)
         model = self.__get_best_model()
+        logger.info(f"Model is {model}")
         prediction = model.predict(data_to_predict)
+        logger.info(f"Prediction is {prediction}")
         return  prediction[0]
 

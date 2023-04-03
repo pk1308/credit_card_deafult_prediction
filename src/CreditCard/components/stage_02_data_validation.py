@@ -140,7 +140,7 @@ class DataValidation:
             reference_train, reference_test = self.get_reference_data()
             if reference_train is None and validation_status:
                 self.train_df.to_pickle(self.data_validation_config_info.data_validated_train_file_path)
-                self.train_df.to_pickle(self.data_validation_config_info.data_validated_test_file_path)
+                self.test_df.to_pickle(self.data_validation_config_info.data_validated_test_file_path)
             else:
                 data_drift = self.get_and_save_data_drift_report(reference_train=reference_train,
                                                                  current_train=self.train_df)

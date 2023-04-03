@@ -10,7 +10,7 @@ class CreditData(BaseModel):
     SEX: int = Field(title="1=male, 2=female")
     EDUCATION: int = Field(title="1 = graduate school; 2 = university; 3 = high school; 4 = others",)
     MARRIAGE: int = Field(title="1 = married; 2 = single; 3 = others")
-    AGE: int = Field(title="Age in years .", gt=20, lt=100)
+    AGE: int = Field(title="Age in years .", gt=19, lt=100)
     PAY_0: int =  Field(title=PAY_0_SCALE, lt=10)
     PAY_2: int = Field(title="Repayment status in August 2005 (scale same as above)", lt=10)
     PAY_3: int = Field(title="Repayment status in July 2005 (scale same as above)", lt=10)

@@ -1,0 +1,60 @@
+model_2:
+  Model_Best_params:
+    ccp_alpha: 0.3352337550892011
+    criterion: squared_error
+    learning_rate: 0.00010007903854383786
+    loss: exponential
+    max_depth: 6
+    max_features: log2
+    min_impurity_decrease: 0.34260975019837975
+    min_samples_leaf: 4
+    min_samples_split: 5
+    min_weight_fraction_leaf: 0.2694083670016785
+    n_estimators: 372
+    subsample: 0.23208030173540176
+    tol: 0.00012082666253305466
+  Model_Best_params_score: 0.5
+  Model_class: GradientBoostingClassifier
+  Model_module: sklearn.ensemble
+  training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/gbt_study.csv
+model_3:
+  Model_Best_params:
+    bagging_fraction: 0.5
+    bagging_freq: 6
+    feature_fraction: 0.5
+    lambda_l1: 5.0
+    lambda_l2: 15.0
+    learning_rate: 0.01448683388723935
+    max_depth: 5
+    min_data_in_leaf: 2
+    min_gain_to_split: 35.0
+    n_estimators: 475
+    num_leaves: 2
+  Model_Best_params_score: 0.7916136088299103
+  Model_class: LGBMClassifier
+  Model_module: lightgbm
+  training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/lgbt_study.csv
+model_5:
+  Model_Best_params:
+    bootstrap: false
+    criterion: entropy
+    max_depth: 4
+    max_leaf_nodes: 9
+    min_samples_leaf: 1
+    n_estimators: 704
+  Model_Best_params_score: 0.8052975421433881
+  Model_class: RandomForestClassifier
+  Model_module: sklearn.ensemble
+  training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/xgboost_study.csv
+model_6:
+  Model_Best_params:
+    bootstrap: false
+    criterion: entropy
+    max_depth: 4
+    max_leaf_nodes: 9
+    min_samples_leaf: 1
+    n_estimators: 704
+  Model_Best_params_score: 0.8049951967516545
+  Model_class: CatBoostClassifier
+  Model_module: catboost
+  training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/catboost_study.csv

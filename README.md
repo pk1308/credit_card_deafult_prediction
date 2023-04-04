@@ -17,7 +17,7 @@
 
 <h3 align="center"> DVC studio  </h3>
 
-[![DVC studio](https://raw.githubusercontent.com/iterative/static/main/img/studio-transparent-github-readme.png)](https://studio.iterative.ai/user/pk1308/projects/creditcard-vq6dx8ewhy)
+[![DVC studio](https://raw.githubusercontent.com/iterative/static/main/img/studio-transparent-github-readme.png)](https://studio.iterative.ai/user/pk1308/projects/credit_card_default_prediction-4h84a6fcv3)
 
 ## 📝 Table of Contents
 

@@ -1,0 +1,3 @@
+,number,value,datetime_start,datetime_complete,duration,params_bagging_fraction,params_bagging_freq,params_feature_fraction,params_lambda_l1,params_lambda_l2,params_learning_rate,params_max_depth,params_min_data_in_leaf,params_min_gain_to_split,params_n_estimators,params_num_leaves,state
+0,0,0.7916136088299103,2023-04-04 15:30:19.114923,2023-04-04 15:30:20.387627,0 days 00:00:01.272704,0.5,6,0.5,5.0,15.0,0.01448683388723935,5,2,35.0,475,2,COMPLETE
+1,1,0.7580852692667313,2023-04-04 15:30:20.389331,2023-04-04 15:30:22.200979,0 days 00:00:01.811648,0.30000000000000004,9,0.9,40.0,55.0,0.00041054120168588934,3,7,10.0,717,225,COMPLETE

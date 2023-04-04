@@ -1,0 +1,154 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/CreditCard/components/stage_01_data_ingestion.py --config=params.yaml
+    deps:
+    - path: src/CreditCard/components/stage_01_data_ingestion.py
+      md5: 0ab64eec408324ffacdfe996f499322e
+      size: 6104
+    params:
+      params.yaml:
+        training_pipeline_config:
+          artifact_dir: artifact
+          experiment_code: Development
+          pipeline_name: CreditCard
+          random_state: 1961
+    outs:
+    - path: artifact/Stage00_data_ingestion/ingested_data/test.csv
+      md5: c4b7f6551e75b042b45f7a8823543cff
+      size: 728498
+    - path: artifact/Stage00_data_ingestion/ingested_data/train.csv
+      md5: 312cfce63f345c68e316acae88295088
+      size: 2918927
+    - path: artifact/Stage00_data_ingestion/raw_data/UCI_Credit_Card.csv
+      md5: 05928af86852df9d28e8aa23c9e0045e
+      size: 3647208
+  data_validation:
+    cmd: python src/CreditCard/components/stage_02_data_validation.py --config=params.yaml
+      --schema_file=./configs/schema.yaml
+    deps:
+    - path: artifact/Stage00_data_ingestion/ingested_data/test.csv
+      md5: c4b7f6551e75b042b45f7a8823543cff
+      size: 728498
+    - path: artifact/Stage00_data_ingestion/ingested_data/train.csv
+      md5: 312cfce63f345c68e316acae88295088
+      size: 2918927
+    - path: configs/schema.yaml
+      md5: 69a89ceb242fe24a3eeec39ac2d15026
+      size: 3454
+    - path: src/CreditCard/components/stage_02_data_validation.py
+      md5: 50ac4edd32b4bece7c7ccc4c2f5f910a
+      size: 9494
+    outs:
+    - path: artifact/stage02_data_validation/validated_test.pkl
+      md5: 4a213c44dc8be694345ca5f1c082f525
+      size: 1201239
+    - path: artifact/stage02_data_validation/validated_train.pkl
+      md5: 30c446999d0e68869331772a1186f8d6
+      size: 4801239
+  data_transformation:
+    cmd: python src/CreditCard/components/stage_03_data_transformation.py --config=params.yaml
+      --schema_file=./configs/schema.yaml --feature_store=./configs/feature_generator.yaml
+    deps:
+    - path: artifact/stage02_data_validation/validated_test.pkl
+      md5: 4a213c44dc8be694345ca5f1c082f525
+      size: 1201239
+    - path: artifact/stage02_data_validation/validated_train.pkl
+      md5: 30c446999d0e68869331772a1186f8d6
+      size: 4801239
+    - path: configs/feature_generator.yaml
+      md5: 7b8e4c16b5a83d73e62712f56f5baa02
+      size: 1024
+    - path: src/CreditCard/components/stage_03_data_transformation.py
+      md5: 256b8a157fd64461a5e3d6da0ff4b2de
+      size: 7270
+    outs:
+    - path: artifact/stage03_data_transformation/preprocessing/preprocessing_obj.pkl
+      md5: eab55a7e9c8f35435eddb700edd51f2d
+      size: 116770
+  model_trainer:
+    cmd: python src/CreditCard/components/stage_04_model_trainer.py --config=params.yaml
+      --schema_file=./configs/schema.yaml --model_config=./configs/model_factory.yaml
+      --feature_store=./configs/feature_generator.yaml
+    deps:
+    - path: artifact/stage02_data_validation/validated_train.pkl
+      md5: 30c446999d0e68869331772a1186f8d6
+      size: 4801239
+    - path: artifact/stage03_data_transformation/preprocessing/preprocessing_obj.pkl
+      md5: eab55a7e9c8f35435eddb700edd51f2d
+      size: 116770
+    - path: configs/model_factory.yaml
+      md5: a9c83fae49cd8c29607dfa5094e8afc4
+      size: 906
+    - path: src/CreditCard/components/stage_04_model_trainer.py
+      md5: 68c23b8bfb957432ca06ed9132c963e2
+      size: 9446
+    params:
+      params.yaml:
+        model_trainer_config.models:
+        - GBT
+        - RF
+        - LGBM
+        - CATBOOST
+    outs:
+    - path: artifact/stage04_model_training/best_model/best_model.pkl
+      md5: 146c1c7cdea89c96ff1b45e04345e232
+      size: 1313562
+    - path: artifact/stage04_model_training/model_eval_reports/model_params.yaml
+      md5: efce15fefecdc3e5e7641ab316ccf1fd
+      size: 1861
+    - path: artifact/stage04_model_training/model_eval_reports/model_report.html
+      md5: f5ad244035bd55bea5b7fe84192ee4e3
+      size: 9604782
+  model_eval:
+    cmd: python src/CreditCard/components/stage_05_model_eval.py --feature_store=./configs/feature_generator.yaml
+      --config=params.yaml --schema_file=./configs/schema.yaml --model_config=./configs/model_factory.yaml
+    deps:
+    - path: artifact/stage02_data_validation/validated_test.pkl
+      md5: 4a213c44dc8be694345ca5f1c082f525
+      size: 1201239
+    - path: artifact/stage02_data_validation/validated_train.pkl
+      md5: 30c446999d0e68869331772a1186f8d6
+      size: 4801239
+    - path: artifact/stage04_model_training/best_model/best_model.pkl
+      md5: 146c1c7cdea89c96ff1b45e04345e232
+      size: 1313562
+    - path: src/CreditCard/components/stage_05_model_eval.py
+      md5: ccf4dd61863ff1e9627df004c9f0d8d0
+      size: 9087
+    outs:
+    - path: artifact/stage_05_model_evaluation/evaluated_model_dir/evaluated_model.pkl
+      md5: 91587f0374966d06550546ba5b5ab140
+      size: 1316919
+    - path: artifact/stage_05_model_evaluation/evaluated_model_dir/model_eval_report.html
+      md5: 9a0dbaa7bfc52990871585dd334d1b9c
+      size: 8262946
+    - path: artifact/stage_05_model_evaluation/evaluated_model_dir/model_eval_report.json
+      md5: 4377c47ab03668cca0a99676dd82b956
+      size: 777
+  model_pusher:
+    cmd: python src/CreditCard/components/stage_06_model_pusher.py --feature_store=./configs/feature_generator.yaml
+      --config=params.yaml --schema_file=./configs/schema.yaml --model_config=./configs/model_factory.yaml
+    deps:
+    - path: artifact/stage02_data_validation/validated_test.pkl
+      md5: 4a213c44dc8be694345ca5f1c082f525
+      size: 1201239
+    - path: artifact/stage02_data_validation/validated_train.pkl
+      md5: 30c446999d0e68869331772a1186f8d6
+      size: 4801239
+    - path: artifact/stage_05_model_evaluation/evaluated_model_dir/evaluated_model.pkl
+      md5: 91587f0374966d06550546ba5b5ab140
+      size: 1316919
+    - path: src/CreditCard/components/stage_06_model_pusher.py
+      md5: a104d5b1c62936cd7bbf5ce2de7f03b5
+      size: 10044
+    outs:
+    - path: artifact/stage_06_model_pusher/Model_eval_report/model_eval_report.html
+      md5: 44bb75b7e292104eb250cc43a124cf84
+      size: 8262957
+    - path: artifact/stage_06_model_pusher/Model_eval_report/model_eval_report.json
+      md5: 4377c47ab03668cca0a99676dd82b956
+      size: 777
+    - path: production_model/best_model.pkl
+      md5: fad09d3b908af0dd72d777c5d3942e7f
+      size: 1318094

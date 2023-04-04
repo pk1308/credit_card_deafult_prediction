@@ -69,26 +69,27 @@ class ModelFactory:
     @staticmethod
     def update_model_config_file(data_to_update: dict, report_file_path: Path):
         """Update model config file with new data
-         data_to update is a dictionary with key as model name and value as dictionary of hyperparameters
-         report_file_path is the path of the config file"""
+            data_to update is a dictionary with key as model name and value as dictionary of hyperparameters
+            report_file_path is the path of the config file"""
+            
         model_key = list(data_to_update.keys())[0]
+        config = dict()
         new_file = False
         if os.path.exists(report_file_path):
             config = read_yaml_as_dict(Path(report_file_path))
-            if config is None:
-                config = dict()
-            elif model_key in list(config.keys()):
-                logger.warning(
-                    f"""Duplicate keys found in the config file and the data to update.Duplicate key is {model_key} ,
-                            Data to update is {data_to_update}. Existing Config file duplicate's {config[model_key]}""")
-                if data_to_update[model_key]["Model_Best_params_score"] >= config[model_key]["Model_Best_params_score"]:
-                    logger.info(f"""Updating the config file with new data {data_to_update}""")
-                    config[model_key] = data_to_update[model_key]
-                    
-            write_yaml(data=config, file_path=Path(report_file_path))
+        if model_key in config.keys():
+            logger.info(f"Model {model_key} already exists in config file")
+            refrence_data = config.get(model_key)
+            if refrence_data["Model_Best_params_score"] < data_to_update[model_key]["Model_Best_params_score"]:
+                logger.info(f"Updating model {model_key} in config file")
+                config[model_key] = data_to_update[model_key]
+                write_yaml(data=config, file_path=Path(report_file_path))
+            else:
+                logger.info(f"Model {model_key} already exists in config file with better score")            
             new_file = False
         else:
-            write_yaml(data=data_to_update, file_path=Path(report_file_path))
+            config.update(data_to_update)
+            write_yaml(data=config, file_path=Path(report_file_path))
             new_file = True
         
         logger.info(f"new_file created is {new_file}")
@@ -192,13 +193,13 @@ class ModelFactory:
         training_artifact_file_name = model_config_info.training_artifact_file_name
         training_artifact_file_path = os.path.join(os.path.dirname(self.report_path), training_artifact_file_name)
 
-        lda_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
+        gbt_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
                                               Model_module=model_config_info.model_module,
                                               Model_class=model_config_info.model_class,
                                               Model_Best_params=study.best_params,
                                               Model_Best_params_score=study.best_value,
                                               training_artifact_file_path=training_artifact_file_path)
-        data_to_update = {model_config_info.Model_index: lda_artifact.dict()}
+        data_to_update = {model_config_info.Model_index: gbt_artifact.dict()}
 
         self.update_model_config_file(data_to_update=data_to_update, report_file_path=report_file_path)
         study.trials_dataframe().to_csv(training_artifact_file_path)
@@ -250,13 +251,13 @@ class ModelFactory:
         training_artifact_file_name = model_config_info.training_artifact_file_name
         training_artifact_file_path = os.path.join(os.path.dirname(self.report_path), training_artifact_file_name)
 
-        lda_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
+        lgbm_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
                                               Model_module=model_config_info.model_module,
                                               Model_class=model_config_info.model_class,
                                               Model_Best_params=study.best_params,
                                               Model_Best_params_score=study.best_value,
                                               training_artifact_file_path=training_artifact_file_path)
-        data_to_update = {model_config_info.Model_index: lda_artifact.dict()}
+        data_to_update = {model_config_info.Model_index: lgbm_artifact.dict()}
 
         self.update_model_config_file(data_to_update=data_to_update, report_file_path=report_file_path)
         study.trials_dataframe().to_csv(training_artifact_file_path)
@@ -354,13 +355,13 @@ class ModelFactory:
         training_artifact_file_name = model_config_info.training_artifact_file_name
         training_artifact_file_path = os.path.join(os.path.dirname(self.report_path), training_artifact_file_name)
 
-        lda_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
+        rf_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
                                               Model_module=model_config_info.model_module,
                                               Model_class=model_config_info.model_class,
                                               Model_Best_params=study.best_params,
                                               Model_Best_params_score=study.best_value,
                                               training_artifact_file_path=training_artifact_file_path)
-        data_to_update = {model_config_info.Model_index: lda_artifact.dict()}
+        data_to_update = {model_config_info.Model_index: rf_artifact.dict()}
 
         self.update_model_config_file(data_to_update=data_to_update, report_file_path=report_file_path)
         study.trials_dataframe().to_csv(training_artifact_file_path)
@@ -408,13 +409,13 @@ class ModelFactory:
         training_artifact_file_name = model_config_info.training_artifact_file_name
         training_artifact_file_path = os.path.join(os.path.dirname(self.report_path), training_artifact_file_name)
 
-        lda_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
+        cat_artifact = OptunaTrainingArtifact(Model_index=model_config_info.model_index,
                                               Model_module=model_config_info.model_module,
                                               Model_class=model_config_info.model_class,
                                               Model_Best_params=study.best_params,
                                               Model_Best_params_score=study.best_value,
                                               training_artifact_file_path=training_artifact_file_path)
-        data_to_update = {model_config_info.Model_index: lda_artifact.dict()}
+        data_to_update = {model_config_info.Model_index: cat_artifact.dict()}
 
         self.update_model_config_file(data_to_update=data_to_update, report_file_path=report_file_path)
         study.trials_dataframe().to_csv(training_artifact_file_path)

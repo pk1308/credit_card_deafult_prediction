@@ -1,0 +1,4 @@
+2023-04-02 at 22:08:34 | INFO |read_yaml | yaml file: configs/feature_generator.yaml loaded successfully
+2023-04-02 at 22:08:37 | INFO |fit | data_encoded :(24000, 134)
+2023-04-02 at 22:08:41 | INFO |get_cluster | total cluster :5
+2023-04-02 at 22:09:38 | INFO |read_yaml | yaml file: configs/schema.yaml loaded successfully

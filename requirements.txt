@@ -25,7 +25,6 @@ colorama==0.4.6
 colorlog==6.7.0
 configobj==5.0.8
 contourpy==1.0.7
--e git+https://github.com/pk1308/creditcard.git@a800d4b6a92b3a359a2a2069e56effcfc9137cdd#egg=CreditCard
 cryptography==40.0.1
 cycler==0.11.0
 dictdiffer==0.9.0
@@ -148,4 +147,4 @@ yarl==1.8.2
 yellowbrick==1.5
 zc.lockfile==3.0.post1
 zipp==3.15.0
-gradio
+mkdocs-material==9.1.5

@@ -16,14 +16,14 @@ data_validation_config:
   validated_test_file: validated_test.pkl
   validated_train_file: validated_train.pkl
 model_evaluation_config:
-  base_accuracy: 0.8162916666666666
+  base_accuracy: 0.7393333333333333
   eval_difference: 0.05
   eval_model_dir_name: evaluated_model_dir
-  eval_param: accuracy
+  eval_param: roc_auc
   evaluated_model_file_name: evaluated_model.pkl
   model_evaluation_dir: stage_05_model_evaluation
 model_pusher_config:
-  base_accuracy: 0.8162916666666666
+  base_accuracy: 0.7393333333333333
   best_model_name: best_model.pkl
   eval_difference: 0.02
   eval_param: accuracy
@@ -32,7 +32,7 @@ model_pusher_config:
 model_trainer_config:
   base_accuracy: 0.3
   eval_difference: 0.6
-  eval_param: accuracy
+  eval_param: roc_auc
   model_factory_file_name: model_factory.yaml
   model_reports_dir: model_eval_reports
   model_trainer_dir: stage04_model_training

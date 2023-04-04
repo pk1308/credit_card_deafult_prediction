@@ -1,0 +1,82 @@
+stages:
+  data_ingestion:
+    cmd: python src/CreditCard/components/stage_01_data_ingestion.py --config=params.yaml
+    deps:
+      - src/CreditCard/components/stage_01_data_ingestion.py
+    params:
+      - training_pipeline_config
+    outs:
+      - artifact/Stage00_data_ingestion/raw_data/UCI_Credit_Card.csv
+      - artifact/Stage00_data_ingestion/ingested_data/test.csv
+      - artifact/Stage00_data_ingestion/ingested_data/train.csv
+
+    
+  data_validation:
+    cmd: python src/CreditCard/components/stage_02_data_validation.py --config=params.yaml --schema_file=./configs/schema.yaml
+    deps:
+      - src/CreditCard/components/stage_02_data_validation.py
+      - configs/schema.yaml
+      - artifact/Stage00_data_ingestion/ingested_data/test.csv
+      - artifact/Stage00_data_ingestion/ingested_data/train.csv
+    outs:
+      - artifact/stage02_data_validation/validated_test.pkl
+      - artifact/stage02_data_validation/validated_train.pkl
+
+  data_transformation: 
+    cmd: python src/CreditCard/components/stage_03_data_transformation.py --config=params.yaml --schema_file=./configs/schema.yaml --feature_store=./configs/feature_generator.yaml
+    deps:
+      - src/CreditCard/components/stage_03_data_transformation.py
+      - configs/feature_generator.yaml
+      - artifact/stage02_data_validation/validated_test.pkl
+      - artifact/stage02_data_validation/validated_train.pkl
+    outs:
+      - artifact/stage03_data_transformation/preprocessing/preprocessing_obj.pkl
+  
+  model_trainer:
+    cmd: python src/CreditCard/components/stage_04_model_trainer.py --config=params.yaml --schema_file=./configs/schema.yaml --model_config=./configs/model_factory.yaml --feature_store=./configs/feature_generator.yaml
+    deps:
+      - src/CreditCard/components/stage_04_model_trainer.py
+      - configs/model_factory.yaml
+      - artifact/stage03_data_transformation/preprocessing/preprocessing_obj.pkl
+      - artifact/stage02_data_validation/validated_train.pkl
+    params:
+      - model_trainer_config.models
+    outs:
+      - artifact/stage04_model_training/best_model/best_model.pkl:
+          cache : false
+      - artifact/stage04_model_training/model_eval_reports/model_params.yaml:
+          cache: false
+    metrics:
+      - artifact/stage04_model_training/model_eval_reports/model_report.html:
+          cache: false
+
+  model_eval:
+    cmd : python src/CreditCard/components/stage_05_model_eval.py --feature_store=./configs/feature_generator.yaml --config=params.yaml --schema_file=./configs/schema.yaml --model_config=./configs/model_factory.yaml
+    deps:
+      - src/CreditCard/components/stage_05_model_eval.py
+      - artifact/stage04_model_training/best_model/best_model.pkl
+      - artifact/stage02_data_validation/validated_test.pkl
+      - artifact/stage02_data_validation/validated_train.pkl
+    outs:
+      - artifact/stage_05_model_evaluation/evaluated_model_dir/model_eval_report.html:
+          cache: false
+      - artifact/stage_05_model_evaluation/evaluated_model_dir/evaluated_model.pkl:
+          cache: false
+    metrics:
+        - artifact/stage_05_model_evaluation/evaluated_model_dir/model_eval_report.json:
+            cache: false
+  model_pusher:
+    cmd: python src/CreditCard/components/stage_06_model_pusher.py --feature_store=./configs/feature_generator.yaml --config=params.yaml --schema_file=./configs/schema.yaml --model_config=./configs/model_factory.yaml
+    deps:
+      - src/CreditCard/components/stage_06_model_pusher.py
+      - artifact/stage02_data_validation/validated_train.pkl
+      - artifact/stage02_data_validation/validated_test.pkl
+      - artifact/stage_05_model_evaluation/evaluated_model_dir/evaluated_model.pkl
+    outs:
+      - artifact/stage_06_model_pusher/Model_eval_report/model_eval_report.html:
+          cache: false
+      - production_model/best_model.pkl:
+          cache: false
+    metrics:
+        - artifact/stage_06_model_pusher/Model_eval_report/model_eval_report.json:
+            cache: false

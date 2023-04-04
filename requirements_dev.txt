@@ -14,8 +14,8 @@ python-box~= 6.0.2
 fastapi~= 0.95.0
 optuna~=3.1.0
 lightgbm~=3.3.5
-xgboost~=1.5.2
-gradio
+fastapi
+uvicorn
 -e .
 
 ## Dev requirements
@@ -23,8 +23,8 @@ joblib~=1.2.0
 creditcard~=0.0.1
 setuptools~=65.6.3
 yellowbrick~=1.5
-dvc 
-dvc[gdrive]
-
+dvc~=2.47.2
+dvc-gdrive~=2.19.1
+mkdocs-material
 
 

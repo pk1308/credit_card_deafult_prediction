@@ -1,7 +1,7 @@
 data_path : artifact/stage03_optuna_training/train.pkl
 target: default
 metrics : roc_auc
-num_trails : 1000
+num_trails : 1500
 report_path : artifact/stage04_model_training/model_eval_reports/model_params.yaml
 
 

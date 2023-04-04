@@ -6,13 +6,6 @@ pay_x:
     - PAY_4
     - PAY_5
     - PAY_6
-  bins:
-    - -1
-    - 0
-    - 25000
-    - 50000
-    - 100000
-    - 2000000
   lower_bound: -2
   upper_bound: 4
 

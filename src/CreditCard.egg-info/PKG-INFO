@@ -13,27 +13,26 @@ Requires-Python: >=3.7
 Provides-Extra: testing
 License-File: license
 
-<p align="center">
-  <a href="" rel="noopener">
- <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
-</p>
+<h3 align="center">Credit  Card default Predicition </h3>
 
-<h3 align="center">Project Title</h3>
+<iframe
+ src="https://pk1308-creditcard.hf.space"
+ frameborder="0"
+ width="1000"
+ height="1800"
+></iframe>
+
+
 
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![DVC repro](https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.svgrepo.com%2Fshow%2F373568%2Fdvc.svg&tbnid=uHxRgUVazeVgQM&vet=12ahUKEwiu16jmj-f9AhWxsEwKHeEVCVsQMygAegUIARCuAQ..i&imgrefurl=https%3A%2F%2Fwww.svgrepo.com%2Fsvg%2F373568%2Fdvc&docid=rSc7Ba5aNXAMCM&w=800&h=800&q=dvc%20image%20svg&ved=2ahUKEwiu16jmj-f9AhWxsEwKHeEVCVsQMygAegUIARCuAQ)](https://studio.iterative.ai/user/pk1308/projects/creditcard-vq6dx8ewhy?panels=plots%2C%3Btrends%2C "DVC")
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)]()
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/pk1308/creditcard/issues)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
-</div>
+<h3 align="center"> DVC studio  </h3>
 
----
-
-<p align="center"> Few lines describing your project.
-    <br> 
-</p>
+[![DVC studio](https://raw.githubusercontent.com/iterative/static/main/img/studio-transparent-github-readme.png)](https://studio.iterative.ai/user/pk1308/projects/creditcard-vq6dx8ewhy)
 
 ## 📝 Table of Contents
 
@@ -47,7 +46,7 @@ License-File: license
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgement)
 
-## 🧐 About `<a name = "about"></a>`
+## 🧐 About `<a name = about"></a>`
 
 Write about 1-2 paragraphs describing the purpose of your project.
 
@@ -127,3 +126,7 @@ See also the list of [contributors](https://github.com/kylelobo/The-Documentatio
 - Hat tip to anyone whose code was used
 - Inspiration
 - References
+
+```
+<a href="https://stackoverflow.com/"><img src="RELATIVE_PATH_TO_IMAGE></img></a>
+```

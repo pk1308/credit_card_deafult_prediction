@@ -33,10 +33,10 @@ class ModelEvaluation:
             raise AppException(e, sys) from e
 
     def get_model_list(self):
-        model_list = [load_object(file_path=Path(self.model_evaluation_config.trained_model_path))]
+        model_list = [load_object(file_path=Path(self.model_evaluation_config.trained_model_path)) ]
         return model_list
 
-    def get_updated_model_status(self, report_obj: object, config_file_path: Path, eval_model_dir: Path):
+    def get_updated_model_status(self, report_obj: object, config_file_path: Path, eval_model_dir: Path , eval_param: str):
 
         is_model_accepted = False
         config_info = read_yaml_as_dict(path_to_yaml=Path(config_file_path))
@@ -45,14 +45,14 @@ class ModelEvaluation:
         train_data_result = report_data.metrics[0].result.reference
         test_json = {f"test_{key}": data for key, data in test_data_result.items()}
         train_json = {f"train_{key}": data for key, data in train_data_result.items()}
-        data_to_dump = {**test_json, **train_json}
+        data_to_dump = {"eval_param" : eval_param, **test_json, **train_json}
         logger.info(data_to_dump)
         logger.info(type(data_to_dump))
         metrics_path = os.path.join(eval_model_dir, "model_eval_report.json")
         logger.info(f"metrics_path : {metrics_path}")
         write_json(data_to_dump=data_to_dump, file_path=Path(metrics_path))
         base_accuracy = float(config_info["model_evaluation_config"]["base_accuracy"])
-        test_accuracy = float(test_data_result["accuracy"])
+        test_accuracy = float(test_data_result[eval_param])
         if test_accuracy > base_accuracy:
             is_model_accepted = True
             logger.info(f" model accepted_status {is_model_accepted}")
@@ -113,7 +113,7 @@ class ModelEvaluation:
                 config_file_path = self.model_evaluation_config.pipeline_config_file_path
                 is_model_accepted = self.get_updated_model_status(report_obj=eval_report_obj,
                                                                   config_file_path=config_file_path,
-                                                                  eval_model_dir=Path(eval_model_dir))
+                                                                  eval_model_dir=Path(eval_model_dir) , eval_param=eval_param)
 
                 model_evaluation_artifact = ModelEvaluationArtifact(evaluated_model_path=eval_model_path,
                                                                     is_model_accepted=is_model_accepted)

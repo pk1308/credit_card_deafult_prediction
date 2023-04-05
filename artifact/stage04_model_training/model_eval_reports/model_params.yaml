@@ -46,3 +46,15 @@ model_5:
   Model_class: RandomForestClassifier
   Model_module: sklearn.ensemble
   training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/xgboost_study.csv
+model_6:
+  Model_Best_params:
+    bootstrap: true
+    criterion: entropy
+    max_depth: 9
+    max_leaf_nodes: 10
+    min_samples_leaf: 4
+    n_estimators: 382
+  Model_Best_params_score: 0.8077604636681995
+  Model_class: CatBoostClassifier
+  Model_module: catboost
+  training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/catboost_study.csv

@@ -65,7 +65,7 @@ class ModelPusher:
     def initiate_model_pusher(self) -> ModelPusherArtifact:
         try:
             best_eval_model = None
-            best_model_path_reference = self.model_pusher_config.best_model_path
+            best_model_path_reference = self.model_pusher_config.production_model_path
             eval_best_model = load_object(file_path = Path(self.model_pusher_config.evaluated_model_path))
             if not os.path.exists(best_model_path_reference):
                 model_list = [eval_best_model]
@@ -99,7 +99,7 @@ class ModelPusher:
             best_eval_model = metric_report_artifact.best_model
             if metric_report_artifact.best_model is None:
                 response = ModelPusherArtifact(is_model_accepted=False,
-                                                evaluated_model_path=None)
+                                                evaluated_model_path=best_model_path_reference)
                 logger.info(response)
                 return response
 

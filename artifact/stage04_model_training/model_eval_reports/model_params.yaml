@@ -1,36 +1,36 @@
 model_2:
   Model_Best_params:
-    ccp_alpha: 1.246255488017595e-05
+    ccp_alpha: 8.499600045951914e-05
     criterion: friedman_mse
-    learning_rate: 0.05023154095974527
-    loss: log_loss
-    max_depth: 7
+    learning_rate: 0.058641304855215244
+    loss: exponential
+    max_depth: 4
     max_features: sqrt
-    min_impurity_decrease: 0.3272616355393083
-    min_samples_leaf: 5
-    min_samples_split: 10
-    min_weight_fraction_leaf: 0.0010517756999873819
-    n_estimators: 1000
-    subsample: 0.848303690988349
-    tol: 0.0014694784052536648
-  Model_Best_params_score: 0.8547529356561
+    min_impurity_decrease: 0.38060347356601876
+    min_samples_leaf: 4
+    min_samples_split: 8
+    min_weight_fraction_leaf: 0.03992419596718749
+    n_estimators: 636
+    subsample: 0.9921639587088518
+    tol: 0.02492151339762965
+  Model_Best_params_score: 0.7772611499075497
   Model_class: GradientBoostingClassifier
   Model_module: sklearn.ensemble
   training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/gbt_study.csv
 model_3:
   Model_Best_params:
-    bagging_fraction: 0.9
-    bagging_freq: 1
-    feature_fraction: 0.5
+    bagging_fraction: 0.8
+    bagging_freq: 7
+    feature_fraction: 0.8
     lambda_l1: 0.0
-    lambda_l2: 0.0
-    learning_rate: 0.030366618768579923
-    max_depth: 10
-    min_data_in_leaf: 1
+    lambda_l2: 70.0
+    learning_rate: 0.028835430815752634
+    max_depth: 4
+    min_data_in_leaf: 4
     min_gain_to_split: 0.0
-    n_estimators: 844
-    num_leaves: 159
-  Model_Best_params_score: 0.8795908240528394
+    n_estimators: 475
+    num_leaves: 87
+  Model_Best_params_score: 0.7787635563306827
   Model_class: LGBMClassifier
   Model_module: lightgbm
   training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/lgbt_study.csv
@@ -38,11 +38,11 @@ model_5:
   Model_Best_params:
     bootstrap: true
     criterion: entropy
-    max_depth: 8
+    max_depth: 10
     max_leaf_nodes: 10
-    min_samples_leaf: 7
-    n_estimators: 797
-  Model_Best_params_score: 0.807731234225994
+    min_samples_leaf: 3
+    n_estimators: 122
+  Model_Best_params_score: 0.7637890303470605
   Model_class: RandomForestClassifier
   Model_module: sklearn.ensemble
   training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/xgboost_study.csv
@@ -50,11 +50,11 @@ model_6:
   Model_Best_params:
     bootstrap: true
     criterion: entropy
-    max_depth: 9
+    max_depth: 7
     max_leaf_nodes: 10
-    min_samples_leaf: 4
-    n_estimators: 382
-  Model_Best_params_score: 0.8077604636681995
+    min_samples_leaf: 2
+    n_estimators: 224
+  Model_Best_params_score: 0.7638240004413548
   Model_class: CatBoostClassifier
   Model_module: catboost
   training_artifact_file_path: artifact/stage04_model_training/model_eval_reports/catboost_study.csv
